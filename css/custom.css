@@ -1,0 +1,6 @@
+.header-hero{
+    background-image: url(../img/hero.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.logo-img{ width: 150px; }
