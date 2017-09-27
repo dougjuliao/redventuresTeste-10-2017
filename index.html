@@ -4,8 +4,11 @@
         <title>RedVentures - Reserva de Hotéis</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700,800,900|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/jumbotron.css">
         <link rel="stylesheet" href="css/custom.css">
+        <link rel="stylesheet" href="helper/calendario/calendarIO.css">
     </head>
     <body>
         <div class="container-fluid">
@@ -21,12 +24,103 @@
                     <a class="nav-link" href="#">Guide</a>
                     </li>
                 </ul>
-                <div class="logo text-center">
-                    <img src="img/crown.svg" class="mx-auto d-block logo-img" alt="Logo crown charlotte">
+                <div class="col-md-12">
+                    <div class="logo-content text-center">
+                        <img src="img/crown.svg" class="mx-auto d-block logo-img" alt="Logo crown charlotte">
+                        <div class="text-logo">
+                            <p class="welcome">Welcome to</p>
+                            <p class="charlotte"><span>Charlotte</span></p>
+                            <p class="queen-city">The queen city</p>
+                        </div>
+                    </div>
                 </div>
             </header>
+            <section id="app">
+                <div class="container container-pages">
+                    <header class="header-page text-center">
+                        <p>Select the dates to stay in Charlotte</p>
+                    </header>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="check-content">
+                                <p>Check-in</label>
+                                <label for="check-in">Chose a date</label>                                            
+                                <input id="check_in" class="check-io" name="check-in" type="date" style="visibility:hidden;">
+                                <p>Check-out</p>
+                                <label for="check-out">Chose a date</label>                                        
+                                <input id="check_out" class="check-io" name="check-out" type="date" style="visibility:hidden;">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- FAKE calendario -->
+                            <div id="calendarIO">
+                                <div class="header-cio">
+                                    <div class="monthyear-cio">
+                                        <h2>August / 2017</h2>
+                                    </div>
+                                    <table cellspadding="0" cellspacing="0" class="days-cio">
+                                        <tr> 
+                                            <td>S</td> <td>M</td> <td>T</td> <td>W</td> <td>T</td> <td>F</td> <td>S</td> 
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="body-cio">
+                                    <table cellspadding="0" cellspacing="0" class="days-cio">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td>12</td>
+                                            <td class="active">13</td>
+                                            <td>14</td>
+                                            <td>15</td>
+                                            <td>16</td>
+                                            <td>17</td>
+                                        </tr>
+                                        <tr>
+                                            <td>18</td>
+                                            <td>19</td>
+                                            <td>20</td>
+                                            <td>21</td>
+                                            <td>22</td>
+                                            <td>23</td>
+                                            <td>24</td>
+                                        </tr>
+                                        <tr>
+                                            <td>25</td>
+                                            <td>26</td>
+                                            <td>27</td>
+                                            <td>28</td>
+                                            <td>29</td>
+                                            <td>30</td>
+                                            <td>31</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div> 
         <script src="js/jquery/jquery.js"></script>
+        <script src="js/bootstrap/bootstrap.min.js"></script>
         <script>
             $(document).ready(function(){
                 let windowHeight = $(window).height();

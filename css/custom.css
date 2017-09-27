@@ -3,4 +3,46 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-.logo-img{ width: 150px; }
+.logo-img{ width: 70px; }
+.logo-content{
+    width:70%;
+    margin: 0 auto;
+}
+.text-logo{ 
+    color:#FFF; 
+    text-transform: uppercase;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 600;
+    letter-spacing: 3px;
+    font-size:14px;
+}
+.text-logo .welcome{
+    margin-top:8px;
+    font-size:1.5em;
+}
+.text-logo .charlotte span{
+    border: 2px solid #FFF;
+    border-left: 0;
+    border-right: 0;
+    padding: 10px 0;
+}
+.text-logo .charlotte{
+    font-weight: 700;
+    font-size: 5.5em;
+}
+.text-logo .queen-city{
+    margin-top:8px;
+    font-size:1.5em;
+}
+.container-pages{
+    background: #FFF;
+    margin-top: -86px;
+    border-radius: 8px;
+    padding: 40px 100px;
+    font-family: 'Montserrat', sans-serif;
+}
+.header-page p{
+    font-size: 22px;
+    font-weight: 600;
+    padding: 30px 0 40px;
+}
