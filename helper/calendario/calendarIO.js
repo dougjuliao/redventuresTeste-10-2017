@@ -34,9 +34,9 @@
 
                 for (var k = 0; k < 5; k++) {
                     for (var j = 0; j <= 6; j++) {
-                        trs += '<td>';
+                        trs += '<td class="data-calendarIO"><span></span>';
                         if (daysCounter <= monthLength.max && (k > 0 || j >= startingDay)) { 
-                            trs += daysCounter;
+                            trs += '<span data-day="'+daysCounter+'">'+daysCounter+'</span>';
                             daysCounter++;
                         }
                         trs += '</td>';
