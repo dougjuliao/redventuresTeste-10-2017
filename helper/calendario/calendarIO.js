@@ -10,6 +10,8 @@
         @conf.selectable = Boolean;
         @conf.firstDay = Number;
         @conf.lastDay = Number;
+        @conf.firstMonth = Number;
+        @conf.lastMonth = Number;
 
         callback = getDay clicked;
     */

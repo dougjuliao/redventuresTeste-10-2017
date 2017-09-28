@@ -59,12 +59,40 @@
                     </div>
                 </div>
                 <div class="container-fluid">
-                    <div id="show_result"></div>
+                    <div id="show_result">
+                        <header class="header-page text-center">
+                            <p>Best choices between {date start} and {date end}</p>
+                        </header>
+                        <div class="col-md-3">
+                            <div class="filter">
+                                <h2>Filters</h2>
+                                <div id="filter_slider"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3"></div>
+                    </div>
                 </div>
             </section>
         </div> 
         <script src="js/jquery/jquery.js"></script>
         <script src="helper/calendario/calendarIO.js"></script>
-        <script src="js/index.js"></script>  
+        <script src="js/index.js"></script> 
+        <script> 
+            $(document).ready(function(){
+                $('.btn-search').on('click',function(){ 
+                    let searchData = $(this)[0].dataset;
+                    $.ajax({
+                        type: "GET",
+                        url: "http://www.raphaelfabeni.com.br/rv/hotels.json",
+                        dataType: "JSON"
+                    }).done(function(data){
+                        console.log(data);
+                    }).fail(function(err){
+                        console.error('Error: ',err);
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
