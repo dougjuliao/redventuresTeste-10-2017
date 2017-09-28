@@ -3,70 +3,164 @@
     @github : https://github.com/dougjuliao
 */
 (function( $ ) {
-    $.fn.calendarIO = function() {
-          const _THIS = this;
+    /*
+        @conf.month = Number Month;
+        @conf.year = Number fullYear;
+        @conf.nav = Boolean;
+        @conf.selectable = Boolean;
+        @conf.firstDay = Number;
+        @conf.lastDay = Number;
 
-          const isLeap = (year) => { // Leap year
-             return year % 4 == 0 ? true : false; 
-          };
-          const getMonth = (month,year) => {
-            let d = [{ max: 31, name: 'January' },
-                    { max: (isLeap(year)) ? 29 : 28, name: 'February' },
-                    { max: 31, name: 'March' },
-                    { max: 30, name: 'April' },
-                    { max: 31, name: 'May' },
-                    { max: 30, name: 'June' },
-                    { max: 31, name: 'July' },
-                    { max: 31, name: 'August' },
-                    { max: 30, name: 'September' },
-                    { max: 31, name: 'October' },
-                    { max: 30, name: 'November' },
-                    { max: 31, name: 'December' }];
-            return d[month];
-          };
-          const creatHTML = (opt) => {
-              let firstDay = new Date(opt.year, opt.month, 1);
-              let startingDay = firstDay.getDay();
-              let monthLength = getMonth(opt.month,opt.year);
+        callback = getDay clicked;
+    */
+    $.fn.calendarIO = function(conf = {},callback) {
+        const _THIS = this;
+        const CalendarIO = {
+            id: $(_THIS),
+            month: conf.month || new Date().getMonth(),
+            year:  conf.year  || new Date().getFullYear(),
+            firstDay: conf.firstDay,
+            lastDay: conf.lastDay,
+            isLeap: () => { // Is leapyear ?
+                return CalendarIO.year % 4 == 0 ? true : false;  
+            },
+            getMonth: () => { // GetMonth and max day.length
+                const th = CalendarIO;
 
-              let trs = '<tr>';
-              let daysCounter = 1;
+                let d = [{ max: 31, name: 'January' },
+                        { max: (th.isLeap(th.year)) ? 29 : 28, name: 'February' },
+                        { max: 31, name: 'March' },
+                        { max: 30, name: 'April' },
+                        { max: 31, name: 'May' },
+                        { max: 30, name: 'June' },
+                        { max: 31, name: 'July' },
+                        { max: 31, name: 'August' },
+                        { max: 30, name: 'September' },
+                        { max: 31, name: 'October' },
+                        { max: 30, name: 'November' },
+                        { max: 31, name: 'December' }];
+                return d[th.month];
+            },
+            creatHTML: () => { // DrawHTML calendarIO
+                const th = CalendarIO;
 
-                for (var k = 0; k < 5; k++) {
-                    for (var j = 0; j <= 6; j++) {
-                        trs += '<td class="data-calendarIO"><span></span>';
-                        if (daysCounter <= monthLength.max && (k > 0 || j >= startingDay)) { 
-                            trs += '<span data-day="'+daysCounter+'">'+daysCounter+'</span>';
-                            daysCounter++;
+                let firstDay = new Date(th.year, th.month, 1);
+                let startingDay = firstDay.getDay();
+                let monthLength = th.getMonth(th.month,th.year);
+  
+                let trs = '<tr>';
+                let daysCounter = 1;
+  
+                    for (var k = 0; k < 5; k++) {
+                        for (var j = 0; j <= 6; j++) {
+                            trs += '<td class="data-calendarIO"><span></span>';
+                                if (daysCounter <= monthLength.max && (k > 0 || j >= startingDay)) { 
+                                    trs += '<span data-day="'+daysCounter+'">'+daysCounter+'</span>';
+                                    daysCounter++;
+                                }
+                            trs += '</td>';
                         }
-                        trs += '</td>';
+                        if (daysCounter > monthLength.max) {
+                            break;
+                        } else {
+                            trs += '</tr><tr>';
+                        }
                     }
-            
-                    if (daysCounter > monthLength.max) {
-                        break;
-                    } else {
-                        trs += '</tr><tr>';
+                    return `<div class="header-cio">
+                            <div class="monthyear-cio">
+                                <h2>${monthLength.name} / ${th.year}</h2>
+                                <div class="nav-cio" style="display:none;">
+                                    <img class="prev-next-cio prev-cio" src="img/arrow-back.svg">
+                                    <img class="prev-next-cio next-cio" src="img/arrow-next.svg">
+                                </div>
+                            </div>
+                            <table cellspadding="0" cellspacing="0" class="days-cio">
+                                <tr> 
+                                    <td>S</td> <td>M</td> <td>T</td> <td>W</td> <td>T</td> <td>F</td> <td>S</td> 
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="body-cio">
+                            <table cellspadding="0" cellspacing="0" class="days-cio">
+                                ${trs}
+                            </table>
+                        </div>`;
+            },
+            addMonthYear: (prevNext) => {
+                const th = CalendarIO;
+
+                if(prevNext){
+                    if(th.month <= 12 && th.month >= -1){
+                        th.month += prevNext; 
+                    }
+                    if(th.month == 12){
+                        th.month = 0;
+                        th.year += prevNext; 
+                    } 
+                    if(th.month == -1){
+                        th.month = 11;
+                        th.year += prevNext; 
+                    } 
+                }
+                th.id.html(th.creatHTML({
+                    month: th.month,
+                    year:  th.year
+                }));
+                CalendarIO.actions();
+            },
+            actions: () => {
+                const th = CalendarIO;
+
+                if(callback){
+                    callback(CalendarIO);
+                }
+                // if(conf.month || conf.year){
+                //     th.addMonthYear();
+                // }
+                if(conf.nav){
+                    th.id.find('.nav-cio').fadeIn();
+                    const prev = th.id.find('.prev-cio');
+                    const next = th.id.find('.next-cio');
+
+                    prev.on('click',function(){ CalendarIO.addMonthYear(-1); });
+                    next.on('click',function(){ CalendarIO.addMonthYear(1); });
+                    
+                }
+                if(conf.selectable){
+                    const tdCalendar = th.id.find('.data-calendarIO');
+
+                    tdCalendar.on('click',function(){
+                        let spanNum = $($(this).find('span')[1]);
+                        $(_THIS).find('.data-calendarIO').removeClass('active active-range-first active-range-last active-range');
+                        $(this).addClass('active');
+                        if(conf.control){
+                            if(conf.control = 'first'){
+                                th.firstDay = spanNum.attr('data-day');
+                            }else if(conf.control = 'second'){
+                                th.lastDay = spanNum.attr('data-day');
+                            }
+                        }
+                    });
+                    if(th.firstDay !== null & th.lastDay !== null){
+                        const firstSpan = tdCalendar.find('span[data-day='+th.firstDay+']');
+                        const lastSpan = tdCalendar.find('span[data-day='+th.lastDay+']');
+                        
+                        firstSpan.parent().addClass('active active-range-first');
+                        lastSpan.parent().addClass('active active-range-last');
+
+                        for(var i = th.firstDay+1; i < th.lastDay; i++){
+                            tdCalendar.find('span[data-day='+i+']').parent().addClass('active active-range');
+                        }
                     }
                 }
-                return `<div class="header-cio">
-                        <div class="monthyear-cio">
-                            <h2>${monthLength.name} / ${opt.year}</h2>
-                        </div>
-                        <table cellspadding="0" cellspacing="0" class="days-cio">
-                            <tr> 
-                                <td>S</td> <td>M</td> <td>T</td> <td>W</td> <td>T</td> <td>F</td> <td>S</td> 
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="body-cio">
-                        <table cellspadding="0" cellspacing="0" class="days-cio">
-                            ${trs}
-                        </table>
-                    </div>`;
-          };
-        $(_THIS).html(creatHTML({
-            month: new Date().getMonth(),
-            year:  new Date().getFullYear()
-        }));
+            }
+        };
+        // init calendar
+        CalendarIO.addMonthYear();
+
+        // Selectors
+        const id =  CalendarIO.id;
+        id.addClass('calendarIO');
+
     };
 })( jQuery );

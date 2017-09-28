@@ -43,12 +43,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="check-content">
-                                <p>Check-in</label>
-                                <label for="check-in">Chose a date</label>                                            
-                                <input id="check_in" class="check-io" name="check-in" type="date" style="visibility:hidden;">
+                                <div class="calendar-window centered"><span class="close-wd">X</span></div>
+                                <p>Check-in</label> 
+                                <div id="check_in" class="check-io">Chose a date</div>                                          
+                                <br>
                                 <p>Check-out</p>
-                                <label for="check-out">Chose a date</label>                                        
-                                <input id="check_out" class="check-io" name="check-out" type="date" style="visibility:hidden;">
+                                <div id="check_out" class="check-io">Chose a date</div>                                      
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -64,7 +64,66 @@
             $(document).ready(function(){
                 let windowHeight = $(window).height();
                 $('.header-hero').height(windowHeight);
-                $('#calendarIO').calendarIO();
+
+                const selectedDate = { firstDay: null, lastDay: null, month: new Date().getMonth() };
+
+                const loadCalendar = (optDays) => {
+                    $('#calendarIO').calendarIO({ 
+                        nav: true, 
+                        selectable: true, 
+                        firstDay: optDays.firstDay, 
+                        lastDay: optDays.lastDay,
+                        month: optDays.month
+                    },function(data){
+                        console.log(data);
+                    });
+                };
+                loadCalendar(selectedDate);
+
+                
+
+                //CLOSE WINDOW CALENDAR
+                $('.close-wd').on('click',function(){
+                    $('.calendar-window').fadeOut();
+                    $('#calendar_checkin').remove();
+                    $('#calendar_checkout').remove();
+                });
+
+                // CHECKIN & CHECKOUT WINDOW
+                const calendarWindow = (conf,callback) => {
+                    conf.btn.on('click',function(){
+                        $('.calendar-window').fadeIn().append('<div id="'+conf.calendar+'"></div>');
+                        $('#'+conf.calendar).calendarIO({ nav: true, selectable: true },function(data){
+                            if(callback){
+                                callback(data);
+                            }
+                        });
+                        
+                    })
+                }
+                calendarWindow({ //CHECKIN
+                    btn: $('#check_in'),
+                    calendar: 'calendar_checkin'
+                },function(data){
+                    const td = $('#calendar_checkin').find('.data-calendarIO');
+                    td.on('click',function(){
+                        selectedDate.firstDay = Number($($(this).find('span')[1]).attr('data-day'));
+                        selectedDate.month = data.month;
+                        loadCalendar(selectedDate);
+                    });
+                });
+
+                calendarWindow({ //CHECKOUT
+                    btn: $('#check_out'),
+                    calendar: 'calendar_checkout'
+                },function(data){
+                    const td = $('#calendar_checkout').find('.data-calendarIO');
+                    td.on('click',function(){
+                        selectedDate.lastDay = Number($($(this).find('span')[1]).attr('data-day'));
+                        selectedDate.month = data.month;
+                        loadCalendar(selectedDate);
+                    })
+                });
             });
         </script>    
     </body>

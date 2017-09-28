@@ -3,7 +3,7 @@ Fonts:
 font-family: 'Heebo', sans-serif;
 font-family: 'Montserrat', sans-serif;
 */
-#calendarIO{
+.calendarIO{
     position: relative;
     width: 100%;
     background: none;
@@ -11,13 +11,26 @@ font-family: 'Montserrat', sans-serif;
     font-family: 'Heebo', sans-serif;
     font-size: 22px;
 }
-#calendarIO .header-cio{
+.header-cio{
     border: 3px solid #E3E3E3;
     border-left: 0;
     border-right: 0;
     padding: 17px 0;
     text-align: center;
 }
+.nav-cio {
+    position: absolute;
+    width: 100%;
+}
+.prev-next-cio {
+    width: 14px;
+    position: absolute;
+    top: -16px;  
+    cursor: pointer;
+}
+.prev-cio{ left: -23px; }
+.next-cio{ right: -11px; }
+
 .header-cio .monthyear-cio h2{
     color: #676767;
     font-weight: 400;
@@ -33,7 +46,7 @@ font-family: 'Montserrat', sans-serif;
 .header-cio table.days-cio tr{}
 .header-cio table.days-cio td{  width: 10%; }
 
-#calendarIO .body-cio {
+.body-cio {
     padding: 17px 0;
     text-align: center;
 }
@@ -41,6 +54,8 @@ font-family: 'Montserrat', sans-serif;
     width:100%;
     color:#676767;
     z-index:10;
+    border-collapse: separate;
+    border-spacing: 0 11px;
 }
 .body-cio table.days-cio tr{}
 .body-cio table.days-cio td{
@@ -49,8 +64,8 @@ font-family: 'Montserrat', sans-serif;
     position:relative;
     cursor:pointer;
 }
-.body-cio table.days-cio td.active{ color:#FFF; }
-.body-cio table.days-cio td.active span:first-child{
+table.days-cio td.active{ color:#FFF; }
+table.days-cio td.active span:first-child{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -63,4 +78,28 @@ font-family: 'Montserrat', sans-serif;
 .body-cio table.days-cio td.active span:last-child{
     position:relative;
     z-index:2;
+}
+
+table.days-cio td.active-range-first span:first-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+table.days-cio td.active-range-last span:first-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+table.days-cio td.active-range-last span:last-child{ color:#79bd1a;}
+table.days-cio td.active-range-last:before{
+    content: '';
+    width: 91%;
+    height: 90%;
+    z-index: 2;
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+table.days-cio td.active-range span:first-child{
+    border-radius:0;
 }
