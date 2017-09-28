@@ -21,6 +21,8 @@
             year:  conf.year  || new Date().getFullYear(),
             firstDay: conf.firstDay,
             lastDay: conf.lastDay,
+            firstMonth: conf.firstMonth,
+            lastMonth: conf.lastMonth,
             isLeap: () => { // Is leapyear ?
                 return CalendarIO.year % 4 == 0 ? true : false;  
             },
@@ -141,16 +143,30 @@
                             }
                         }
                     });
-                    if(th.firstDay !== null & th.lastDay !== null){
-                        if(th.firstDay < th.lastDay){
-                            const firstSpan = tdCalendar.find('span[data-day='+th.firstDay+']');
-                            const lastSpan = tdCalendar.find('span[data-day='+th.lastDay+']');
-                            
-                            firstSpan.parent().addClass('active active-range-first');
-                            lastSpan.parent().addClass('active active-range-last');
+                    const paintActive = (first,last,count,paintWhite) => {
+                        const firstSpan = tdCalendar.find('span[data-day='+first+']');
+                        const lastSpan = tdCalendar.find('span[data-day='+last+']');
+                        
+                        firstSpan.parent().addClass('active active-range-first');
+                        lastSpan.parent().addClass(`active active-range${paintWhite ? '-last': ''}`);
 
-                            for(var i = th.firstDay+1; i < th.lastDay; i++){
-                                tdCalendar.find('span[data-day='+i+']').parent().addClass('active active-range');
+                        for(var i = first+count; i < last; i++){
+                            tdCalendar.find('span[data-day='+i+']').parent().addClass('active active-range');
+                        }
+                    };
+
+                    if(th.firstDay !== null && th.lastDay !== null){
+                        if(th.firstMonth == th.lastMonth && th.firstMonth == th.month && th.lastMonth == th.month){
+                            if(th.firstDay < th.lastDay){
+                                paintActive(th.firstDay,th.lastDay,1,true);
+                            }
+                        }else if(th.firstMonth < th.lastMonth){
+                            if(th.month == th.firstMonth){
+                                paintActive(th.firstDay,th.getMonth().max,1);
+                            }else if(th.month == th.lastMonth){
+                                paintActive(1,th.lastDay,0,true);
+                            }else if(th.month < th.lastMonth && th.month > th.firstMonth){
+                                paintActive(1,th.getMonth().max,0);
                             }
                         }
                     }

@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    //BTN SEARCH
+    const btnSearch = $('.btn-search');
+
     //HEADER MAX HEIGHT
     let windowHeight = $(window).height();
     $('.header-hero').height(windowHeight);
@@ -11,6 +14,8 @@ $(document).ready(function(){
             selectable: true, 
             firstDay: optDays.firstDay, 
             lastDay: optDays.lastDay,
+            firstMonth: optDays.firstMonth,
+            lastMonth: optDays.lastMonth,
             month: optDays.month
         },function(data){
             console.log(data);
@@ -32,11 +37,8 @@ $(document).ready(function(){
             
         })
     }
-
-
     loadCalendar(selectedDate);//INIT CALENDAR
 
-    //EVENTS
     $('.close-wd').on('click',function(){//CLICK TO CLOSE WINDOW CALENDAR
         closeWindowCalendar();
     });
@@ -48,6 +50,7 @@ $(document).ready(function(){
         td.on('click',function(){
             selectedDate.firstDay = Number($($(this).find('span')[1]).attr('data-day'));
             selectedDate.month = data.month;
+            selectedDate.firstMonth = data.month;
             loadCalendar(selectedDate);
             closeWindowCalendar();
 
@@ -56,9 +59,13 @@ $(document).ready(function(){
             }else{
                 $('#check_in').html('Chose a date');
             }
+
+            btnSearch.attr({
+                'data-firstDay':selectedDate.firstDay,
+                'data-firstMonth':data.month
+            });
         });
     });
-
     calendarWindow({ //CHECKOUT
         btn: $('#check_out'),
         calendar: 'calendar_checkout'
@@ -67,6 +74,7 @@ $(document).ready(function(){
         td.on('click',function(){
             selectedDate.lastDay = Number($($(this).find('span')[1]).attr('data-day'));
             selectedDate.month = data.month;
+            selectedDate.lastMonth = data.month;
             loadCalendar(selectedDate);
             closeWindowCalendar();
 
@@ -75,6 +83,14 @@ $(document).ready(function(){
             }else{
                 $('#check_out').html('Chose a date');
             }
+
+            btnSearch.attr({
+                'data-lastDay':selectedDate.lastDay,
+                'data-lastMonth':data.month
+            });
         })
     });
+
+    //SEARCH HOTELS
+    //$('.btn-search').on('click',function(){ });
 });
