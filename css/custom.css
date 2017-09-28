@@ -94,3 +94,34 @@ body{
     box-shadow: 0px 2px 2px #acacac;
     cursor:pointer;
 }
+.btn-search{
+    color:#FC982D;
+    border:2px solid #FC982D;
+    background:#fff;
+    border-radius:30px;
+    padding:10px 40px;
+    font-weight:700;
+    cursor:pointer;
+    position:relative;
+    z-index:4;
+    overflow:hidden;
+    transition:0.3s;
+}
+.btn-search:before{
+    content: '';
+    width: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    z-index: -1;
+    transition:0.3s;
+}
+.btn-search:hover{
+    color:#FFF;
+}
+.btn-search:hover:before{
+    width:100%;
+    background:#ff9900;
+}

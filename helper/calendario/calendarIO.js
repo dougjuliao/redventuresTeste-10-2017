@@ -142,14 +142,16 @@
                         }
                     });
                     if(th.firstDay !== null & th.lastDay !== null){
-                        const firstSpan = tdCalendar.find('span[data-day='+th.firstDay+']');
-                        const lastSpan = tdCalendar.find('span[data-day='+th.lastDay+']');
-                        
-                        firstSpan.parent().addClass('active active-range-first');
-                        lastSpan.parent().addClass('active active-range-last');
+                        if(th.firstDay < th.lastDay){
+                            const firstSpan = tdCalendar.find('span[data-day='+th.firstDay+']');
+                            const lastSpan = tdCalendar.find('span[data-day='+th.lastDay+']');
+                            
+                            firstSpan.parent().addClass('active active-range-first');
+                            lastSpan.parent().addClass('active active-range-last');
 
-                        for(var i = th.firstDay+1; i < th.lastDay; i++){
-                            tdCalendar.find('span[data-day='+i+']').parent().addClass('active active-range');
+                            for(var i = th.firstDay+1; i < th.lastDay; i++){
+                                tdCalendar.find('span[data-day='+i+']').parent().addClass('active active-range');
+                            }
                         }
                     }
                 }
