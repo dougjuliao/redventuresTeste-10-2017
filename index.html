@@ -50,7 +50,7 @@
                                 <p>Check-out</p>
                                 <div id="check_out" class="check-io">Chose a date</div>  
                                 <br>
-                                <button class="btn-search">Search hotels</button>                                    
+                                <button class="btn-all btn-search btn-orange">Search hotels</button>                                    
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -63,14 +63,50 @@
                         <header class="header-page text-center">
                             <p>Best choices between {date start} and {date end}</p>
                         </header>
-                        <div class="col-md-3">
-                            <div class="filter">
-                                <h2>Filters</h2>
-                                <div id="filter_slider"></div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="filter">
+                                    <h2>Filters</h2>
+                                    <div id="filter_slider"></div>
+                                    <div id="filter_stars"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="hotel-img d-block text-center">
+                                            <img class="hotel" src="http://www.raphaelfabeni.com.br/rv/test-resources/images/hotels/super-8.jpg" alt="Hotel">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="hotel-info">
+                                            <div class="hotel-stars">
+                                                <span class="rated"></span>
+                                                <span class="rated"></span>
+                                                <span class="rated"></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                            <div class="hotel-desc">
+                                                <h3>HYATT PLACE CHARLOTTE AIRPORT/LAKE POINTE</h3>
+                                                <p>
+                                                    This hotel is located 7 miles from downtown Charlotte and
+                                                    5 miles from Charlotte Douglas International Airport.
+                                                </p>
+                                                <button class="btn-all btn-orange">Book now</button>
+                                                <button class="btn-all btn-green">Price history</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 border-price d-flex align-items-center justify-content-center">
+                                <div class="hotel-price d-flex flex-column">
+                                    <p class="text-right">Total</p><br>
+                                    <h2>$670</h2>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-3"></div>
                     </div>
                 </div>
             </section>
