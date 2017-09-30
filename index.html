@@ -59,55 +59,7 @@
                     </div>
                 </div>
                 <div class="container-fluid">
-                    <div id="show_result">
-                        <header class="header-page text-center">
-                            <p>Best choices between {date start} and {date end}</p>
-                        </header>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="filter">
-                                    <h2>Filters</h2>
-                                    <div id="filter_slider"></div>
-                                    <div id="filter_stars"></div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="hotel-img d-block text-center">
-                                            <img class="hotel" src="http://www.raphaelfabeni.com.br/rv/test-resources/images/hotels/super-8.jpg" alt="Hotel">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="hotel-info">
-                                            <div class="hotel-stars">
-                                                <span class="rated"></span>
-                                                <span class="rated"></span>
-                                                <span class="rated"></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
-                                            <div class="hotel-desc">
-                                                <h3>HYATT PLACE CHARLOTTE AIRPORT/LAKE POINTE</h3>
-                                                <p>
-                                                    This hotel is located 7 miles from downtown Charlotte and
-                                                    5 miles from Charlotte Douglas International Airport.
-                                                </p>
-                                                <button class="btn-all btn-orange">Book now</button>
-                                                <button class="btn-all btn-green">Price history</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 border-price d-flex align-items-center justify-content-center">
-                                <div class="hotel-price d-flex flex-column">
-                                    <p class="text-right">Total</p><br>
-                                    <h2>$670</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="show_result"></div>
                 </div>
             </section>
         </div> 
@@ -123,6 +75,61 @@
                         url: "http://www.raphaelfabeni.com.br/rv/hotels.json",
                         dataType: "JSON"
                     }).done(function(data){
+                        let html = `<header class="header-page text-center">
+                                        <p>Best choices between {date start} and {date end}</p>
+                                    </header>`;
+                                    let hotels = data.hotels;
+
+                                    for(var i = 0; i < hotels.length; i++){
+
+                                        let stars = '';
+                                        for(var i2 = 0; i2 < 5; i2++){
+                                            stars += `<span ${ i2 < hotels[i].rate ? `class="rated"` : '' }></span>`;
+                                        }
+
+
+                                        html += `
+                                        <div class="row mb-30">
+                                            <div class="col-md-2">
+                                                ${ (i== 0 ? `<div class="filter">
+                                                    <h2>Filters</h2>
+                                                    <div id="filter_slider"></div>
+                                                    <div id="filter_stars"></div>
+                                                </div>` : ``)}
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="hotel-img d-block text-center">
+                                                            <img class="hotel" src="${hotels[i].image}" alt="Hotel">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="hotel-info">
+                                                            <div class="hotel-stars">
+                                                                ${stars}
+                                                            </div>
+                                                            <div class="hotel-desc">
+                                                                <h3>${hotels[i].name}</h3>
+                                                                <p>
+                                                                    ${hotels[i].description}
+                                                                </p>
+                                                                <button class="btn-all btn-orange">Book now</button>
+                                                                <button class="btn-all btn-green">Price history</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 border-price d-flex align-items-center justify-content-center">
+                                                <div class="hotel-price d-flex flex-column">
+                                                    <p class="text-right">Total</p><br>
+                                                    <h1>$${hotels[i].price}</h1>
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                    }
+                        $('#show_result').html(html);
                         console.log(data);
                     }).fail(function(err){
                         console.error('Error: ',err);

@@ -141,7 +141,7 @@ body{
     width:0;
 }
 
-
+.mb-30{ margin-bottom:30px; }
 .hotel-info { padding: 12px; }
 .hotel-stars span{
     background-image: url(../img/star-outline.svg);
@@ -170,7 +170,7 @@ body{
     color:#C1C1CA; 
     margin-bottom: -30px;
 }
-.hotel-price h2{ 
+.hotel-price h1{ 
     color:#79BD1A;
     font-weight: 900;
 }
