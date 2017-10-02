@@ -1,6 +1,8 @@
 body{
     font-family: 'Heebo', sans-serif;
 }
+.nav-link{ color:#FFF; }
+.nav-link:hover{ color:#DDD; }
 .header-hero{
     background-image: url(../img/hero.jpg);
     background-size: cover;
@@ -184,11 +186,29 @@ body{
     margin-bottom: 20px;
     border-bottom: 1px solid #ccc;
 }
-#filter_slider p{ margin-bottom:0; }
+#filter_stars p{ margin-bottom: 7px;} 
+#filter_slider p, #filter_stars p{ 
+    margin-bottom:0; 
+    margin-bottom: -8px;
+    font-size: 12px;
+    color: #ccc;
+}
 #filter_stars{ margin-left:20px;}
 #filter_stars span{ 
     width:30px;
     height:30px;
     cursor:pointer;
 }
+
+/* FOOTER */
+.footer{ border:0; margin-bottom:30px;}
+.footer .social{     
+    width:50px;
+    height:50px;
+    background-repeat:no-repeat;
+    display:inline-block;
+}
+.footer .facebook{  background-image: url('../img/facebook.svg'); }
+.footer .twitter{   background-image: url('../img/twitter.svg'); }
+.footer .instagram{ background-image: url('../img/instagram.svg'); }
 

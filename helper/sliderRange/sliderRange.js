@@ -40,5 +40,3 @@ function rangeInputChangeEventHandler(e){
     $(range_max).html('$ '+addSeperator(maxVal));
     $('#filderRange').val(`{ "min":${addSeperator(minVal)}, "max": ${addSeperator(maxVal)}}`).trigger('change');
 }
-    
-         //$('input[type="range"]').on( 'input', rangeInputChangeEventHandler);

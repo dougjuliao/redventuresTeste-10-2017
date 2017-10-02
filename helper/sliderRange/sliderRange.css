@@ -66,6 +66,8 @@ input[type='range'] {
       color:#ccc; 
       margin-top:50px;
       margin-right:0;
+      font-weight: 400;
+      font-size: 15px;
   }
 
 
