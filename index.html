@@ -7,8 +7,9 @@
         <link href="https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700,800,900|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/jumbotron.css">
-        <link rel="stylesheet" href="css/custom.css">
         <link rel="stylesheet" href="helper/calendario/calendarIO.css">
+        <link rel="stylesheet" href="helper/sliderRange/sliderRange.css">
+        <link rel="stylesheet" href="css/custom.css">
     </head>
     <body>
         <div class="container-fluid">
@@ -58,16 +59,51 @@
                         </div>
                     </div>
                 </div>
-                <div class="container-fluid">
-                    <div id="show_result"></div>
+                <div class="container-fluid d-flex">
+                    <div class="filter">
+                        <h2>Filters</h2>
+                        <div id="filter_slider">
+                                <div class="rangeslider">
+                                    <p>Price Range</p>
+                                    <input type="hidden" id="filderRange">
+                                    <input class="min" name="range_1" type="range" min="100" max="600" value="100" />
+                                    <input class="max" name="range_1" type="range" min="100" max="600" value="600" />
+                                    <span class="range_min_label left">Min</span>
+                                    <span class="range_max_label right">Max</span>
+                                    <span class="range_min light left">$ 100</span>
+                                    <span class="range_max light right">$ 600</span>
+                                </div>    
+                        </div>
+                        <div id="filter_stars" class="hotel-stars">
+                            <p>Stars</p>
+                            <span data-index="0"></span>
+                            <span data-index="1"></span>
+                            <span data-index="2"></span>
+                            <span data-index="3"></span>
+                            <span data-index="4"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="show_result"></div>
+                    </div>
                 </div>
             </section>
         </div> 
         <script src="js/jquery/jquery.js"></script>
         <script src="helper/calendario/calendarIO.js"></script>
+        <script src="helper/sliderRange/sliderRange.js"></script>
         <script src="js/index.js"></script> 
+        <script src="js/app/view/View.js"></script>
         <script> 
             $(document).ready(function(){
+                let ViewHotels = new View('#show_result');
+                let Filter = {
+                    range: { "min":100, "max": 600},//default value
+                    stars: 0
+                };
+
+                let filtered = null; // customData to filter he is modified every change in range and stars
+
                 $('.btn-search').on('click',function(){ 
                     let searchData = $(this)[0].dataset;
                     $.ajax({
@@ -75,61 +111,95 @@
                         url: "http://www.raphaelfabeni.com.br/rv/hotels.json",
                         dataType: "JSON"
                     }).done(function(data){
-                        let html = `<header class="header-page text-center">
-                                        <p>Best choices between {date start} and {date end}</p>
-                                    </header>`;
-                                    let hotels = data.hotels;
+                        if(data.hotels.length > 0){
+                            $('.filter').fadeIn();
+                        }
 
-                                    for(var i = 0; i < hotels.length; i++){
+                        const htmlTemplate = (dt) => {
+                            let html = `<header class="header-page text-center">
+                                            <p>Best choices between ${$('#check_in').html()} and ${$('#check_out').html()}</p>
+                                        </header>`;
+                            let hotels = dt;
 
-                                        let stars = '';
-                                        for(var i2 = 0; i2 < 5; i2++){
-                                            stars += `<span ${ i2 < hotels[i].rate ? `class="rated"` : '' }></span>`;
-                                        }
+                            for(var i = 0; i < hotels.length; i++){
+
+                                let stars = '';
+                                for(var i2 = 0; i2 < 5; i2++){
+                                    stars += `<span ${ i2 < hotels[i].rate ? `class="rated"` : '' }></span>`;
+                                }
 
 
-                                        html += `
-                                        <div class="row mb-30">
-                                            <div class="col-md-2">
-                                                ${ (i== 0 ? `<div class="filter">
-                                                    <h2>Filters</h2>
-                                                    <div id="filter_slider"></div>
-                                                    <div id="filter_stars"></div>
-                                                </div>` : ``)}
+                                html += `
+                                <div class="row mb-30">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="hotel-img d-block text-center">
+                                                    <img class="hotel" src="${hotels[i].image}" alt="Hotel">
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="hotel-img d-block text-center">
-                                                            <img class="hotel" src="${hotels[i].image}" alt="Hotel">
-                                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="hotel-info">
+                                                    <div class="hotel-stars">
+                                                        ${stars}
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="hotel-info">
-                                                            <div class="hotel-stars">
-                                                                ${stars}
-                                                            </div>
-                                                            <div class="hotel-desc">
-                                                                <h3>${hotels[i].name}</h3>
-                                                                <p>
-                                                                    ${hotels[i].description}
-                                                                </p>
-                                                                <button class="btn-all btn-orange">Book now</button>
-                                                                <button class="btn-all btn-green">Price history</button>
-                                                            </div>
-                                                        </div>
+                                                    <div class="hotel-desc">
+                                                        <h3>${hotels[i].name}</h3>
+                                                        <p>
+                                                            ${hotels[i].description}
+                                                        </p>
+                                                        <button class="btn-all btn-orange">Book now</button>
+                                                        <button class="btn-all btn-green">Price history</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 border-price d-flex align-items-center justify-content-center">
-                                                <div class="hotel-price d-flex flex-column">
-                                                    <p class="text-right">Total</p><br>
-                                                    <h1>$${hotels[i].price}</h1>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                                    }
-                        $('#show_result').html(html);
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 border-price d-flex align-items-center justify-content-center">
+                                        <div class="hotel-price d-flex flex-column">
+                                            <p class="text-right">Total</p><br>
+                                            <h1>$${hotels[i].price}</h1>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                            return html;
+                        };   
+                        ViewHotels.template(htmlTemplate(data.hotels));
+
+                        $('input[type="range"]').on( 'input', rangeInputChangeEventHandler);
+
+                        //FILTER
+                        const filterExec = () => {
+                            return  data.hotels.filter((toFilter) => {
+                                return toFilter.price >= Filter.range.min && toFilter.price <= Filter.range.max && (Filter.stars > 0 ? toFilter.rate == Filter.stars : toFilter.rate);
+                            });
+                        }
+
+
+                        //Range filter
+                        $('#filderRange').on('change',function(){
+                            Filter.range = JSON.parse($(this).val());
+                            ViewHotels.template(htmlTemplate(filterExec()));
+                        });
+
+                        //Stars filter
+                        $('#filter_stars span').on('click',function(){
+                            if($(this).hasClass('rated')){
+                                $('#filter_stars span').removeClass('rated');
+                            }else{
+                                for(var i = 0; i <= $(this).attr('data-index'); i++){
+                                    $($('#filter_stars span')[i]).addClass('rated');
+                                }
+                            }
+                            Filter.stars = $('#filter_stars span.rated').length;
+
+                            
+                            if(Filter.stars > 0){
+                                ViewHotels.template(htmlTemplate(filterExec()));
+                            }
+                        });
                         console.log(data);
                     }).fail(function(err){
                         console.error('Error: ',err);

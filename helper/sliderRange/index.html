@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Slider range</title>
+</head>
+<body>
+    <div class="rangeslider">
+        <input type="hidden" id="filderRange">
+        <input class="min" name="range_1" type="range" min="100" max="600" value="100" />
+        <input class="max" name="range_1" type="range" min="100" max="600" value="600" />
+        <span class="range_min range_min_label left">Min</span>
+        <span class="range_max range_max_label right">Max</span>
+        <span class="range_min light left">$ 100</span>
+        <span class="range_max light right">$ 600</span>
+    </div>
+    <script src="../../js/jquery/jquery.js"></script>
+    <script src="sliderRange.js"></script>
+</body>
+</html>

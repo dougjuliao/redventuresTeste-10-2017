@@ -174,3 +174,21 @@ body{
     color:#79BD1A;
     font-weight: 900;
 }
+/*FILTERS*/
+.filter{ 
+    width:285px; 
+    display:none;
+}
+#filter_slider .rangeslider {
+    padding-bottom: 140px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+#filter_slider p{ margin-bottom:0; }
+#filter_stars{ margin-left:20px;}
+#filter_stars span{ 
+    width:30px;
+    height:30px;
+    cursor:pointer;
+}
+
