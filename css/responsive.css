@@ -1,0 +1,21 @@
+
+@media (min-width: 476px) { 
+    .border-price{ display:none !important; }
+    .hotel-price-small{ display:block !important; }
+    .mb-30{ margin-bottom:70px;}
+    .check-content {
+        text-align: center;
+        padding-bottom: 35px;
+    }
+    .centered { width: 60%; }
+}
+@media (min-width: 992px) { 
+    .text-center .btn-all{  margin: 6px 16px; }
+    .border-price{ display:block !important; }
+    .hotel-price-small{ display:none !important; }
+    .check-content {
+        text-align: left;
+        padding-bottom: 0;
+    }
+    .centered { width: 40%; }
+}

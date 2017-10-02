@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="helper/calendario/calendarIO.css">
         <link rel="stylesheet" href="helper/sliderRange/sliderRange.css">
         <link rel="stylesheet" href="css/custom.css">
+        <link rel="stylesheet" href="css/responsive.css">
     </head>
     <body>
         <div class="container-fluid">
@@ -163,19 +164,25 @@
                                                     <div class="hotel-stars">
                                                         ${stars}
                                                     </div>
+                                                    <div class="hotel-price hotel-price-small d-flex flex-column">
+                                                        <p class="text-right">Total</p><br>
+                                                        <h1>$${hotels[i].price}</h1>
+                                                    </div>
                                                     <div class="hotel-desc">
                                                         <h3>${hotels[i].name}</h3>
                                                         <p>
                                                             ${hotels[i].description}
                                                         </p>
-                                                        <button class="btn-all btn-orange">Book now</button>
-                                                        <button class="btn-all btn-green" id="btn_price_history">Price history</button>
+                                                        <div class="text-center">
+                                                            <button class="btn-all btn-orange">Book now</button>
+                                                            <button class="btn-all btn-green btn_price_history">Price history</button>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-price">
                                                         <div class="back-hotels-info">
                                                             <img class="prev-next-cio" src="img/arrow-back.svg"> <p>Back to description</p>
                                                         </div>
-                                                        <canvas id="myChart_${i}" width="450" height="225" data-price="${hotels[i].price_history}"></canvas>    
+                                                        <canvas id="myChart_${i}" width="450" height="200" data-price="${hotels[i].price_history}"></canvas>    
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,67 +195,14 @@
                                         </div>
                                     </div>
                                 </div>`;
+
                             }
                             return html;
                         };   
                         ViewHotels.template(htmlTemplate(data.hotels));
+                        ViewHotels.chartCanvas(data.hotels);
 
                         
-                        //create chartjs
-                        let ctx = document.getElementById("myChart_0").getContext("2d");
-                        let myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: data.hotels[0].price_history.map((a) => { return a.month; }),
-                                datasets: [{
-                                    label: '',
-                                    data: data.hotels[0].price_history.map((a) => { return a.value; }),
-                                    backgroundColor: [
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)',
-                                        'rgba(245, 123, 24, 0.7)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)',
-                                        'rgba(245, 123, 25, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero:true
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-                        //PRICE HISTORY
-                        $('#btn_price_history').on('click',function(){
-                            let parentHotels = $(this).closest('.hotel-info');
-
-                            parentHotels.find('.hotel-desc,.hotel-stars').slideToggle();
-                            parentHotels.find('.modal-price').fadeIn();
-                        });
-                        $('.back-hotels-info').on('click',function(){
-                            let parentHotels = $(this).closest('.hotel-info');
-
-                            parentHotels.find('.modal-price').fadeOut();
-                            parentHotels.find('.hotel-desc,.hotel-stars').slideToggle();
-                        });
-
-
                         $('input[type="range"]').on( 'input', rangeInputChangeEventHandler);
 
                         //FILTER
@@ -263,6 +217,7 @@
                         $('#filderRange').on('change',function(){
                             Filter.range = JSON.parse($(this).val());
                             ViewHotels.template(htmlTemplate(filterExec()));
+                            ViewHotels.chartCanvas(filterExec());
                         });
 
                         //Stars filter
@@ -279,6 +234,7 @@
                             
                             if(Filter.stars > 0){
                                 ViewHotels.template(htmlTemplate(filterExec()));
+                                ViewHotels.chartCanvas(filterExec());
                             }
                         });
                         console.log(data);
