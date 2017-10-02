@@ -163,6 +163,33 @@ body{
     color:#C1C1CA;
     font-size:15px;
 }
+.modal-price{ display:none; }
+.back-hotels-info { 
+    position: relative;
+    float:right; 
+    cursor:pointer;
+}
+.back-hotels-info:after{
+    content: '';
+    width: 20px;
+    height: 4px;
+    border-radius: 17px;
+    background: #ffba23;
+    position: absolute;
+    top: 10.9px;
+    left: 19px;
+}
+.back-hotels-info img{ 
+    width:12px;
+} 
+
+.back-hotels-info img,.back-hotels-info p{ 
+    display: inline-block;
+    position: initial;
+    margin-left: 15px; 
+    color:#ccc;
+}
+
 .hotel {
     border-radius: 5px;
 }

@@ -103,6 +103,7 @@
         <script src="helper/sliderRange/sliderRange.js"></script>
         <script src="js/index.js"></script> 
         <script src="js/app/view/View.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
         <script> 
             $(document).ready(function(){
                 let ViewHotels = new View('#show_result');
@@ -154,7 +155,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="hotel-img d-block text-center">
-                                                    <img class="hotel" src="${hotels[i].image}" alt="Hotel">
+                                                    <img class="hotel img-fluid" src="${hotels[i].image}" alt="Hotel">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -168,7 +169,13 @@
                                                             ${hotels[i].description}
                                                         </p>
                                                         <button class="btn-all btn-orange">Book now</button>
-                                                        <button class="btn-all btn-green">Price history</button>
+                                                        <button class="btn-all btn-green" id="btn_price_history">Price history</button>
+                                                    </div>
+                                                    <div class="modal-price">
+                                                        <div class="back-hotels-info">
+                                                            <img class="prev-next-cio" src="img/arrow-back.svg"> <p>Back to description</p>
+                                                        </div>
+                                                        <canvas id="myChart_${i}" width="450" height="225" data-price="${hotels[i].price_history}"></canvas>    
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,6 +192,62 @@
                             return html;
                         };   
                         ViewHotels.template(htmlTemplate(data.hotels));
+
+                        
+                        //create chartjs
+                        let ctx = document.getElementById("myChart_0").getContext("2d");
+                        let myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: data.hotels[0].price_history.map((a) => { return a.month; }),
+                                datasets: [{
+                                    label: '',
+                                    data: data.hotels[0].price_history.map((a) => { return a.value; }),
+                                    backgroundColor: [
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)',
+                                        'rgba(245, 123, 24, 0.7)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)',
+                                        'rgba(245, 123, 25, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero:true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                        //PRICE HISTORY
+                        $('#btn_price_history').on('click',function(){
+                            let parentHotels = $(this).closest('.hotel-info');
+
+                            parentHotels.find('.hotel-desc,.hotel-stars').slideToggle();
+                            parentHotels.find('.modal-price').fadeIn();
+                        });
+                        $('.back-hotels-info').on('click',function(){
+                            let parentHotels = $(this).closest('.hotel-info');
+
+                            parentHotels.find('.modal-price').fadeOut();
+                            parentHotels.find('.hotel-desc,.hotel-stars').slideToggle();
+                        });
+
 
                         $('input[type="range"]').on( 'input', rangeInputChangeEventHandler);
 
